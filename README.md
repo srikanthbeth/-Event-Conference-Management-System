@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Event & Conference Management System** is a real-world backend application developed using **FastAPI**. It provides APIs for managing events, venues, halls, speakers, sessions, attendees, registrations, tickets, purchases, payments, bookings, check-ins, certificates, feedback, notifications, refunds, dashboards, reports, filtering, pagination, and security.
+The **Event & Conference Management System** is a real-world backend application developed using **FastAPI**. It provides APIs for managing events, venues, halls, speakers, sessions, attendees, registrations, tickets, purchases, payments, bookings, check-ins, certificates, feedback, notifications, refunds, dashboards, reports, filtering, pagination, security, and data integrity.
 
 The project follows a modular architecture using separate **Models, Schemas, Repositories, Services, and Routes** without using an `app` folder.
 
@@ -39,117 +39,12 @@ event_conference_management/
 ├── README.md
 │
 ├── models/
-│   ├── user.py
-│   ├── event.py
-│   ├── venue.py
-│   ├── hall.py
-│   ├── speaker.py
-│   ├── session.py
-│   ├── attendee.py
-│   ├── registration.py
-│   ├── ticket.py
-│   ├── purchase.py
-│   ├── payment.py
-│   ├── session_booking.py
-│   ├── checkin.py
-│   ├── certificate.py
-│   ├── feedback.py
-│   ├── refund.py
-│   └── audit_log.py
-│
 ├── schemas/
-│   ├── user.py
-│   ├── event.py
-│   ├── venue.py
-│   ├── hall.py
-│   ├── speaker.py
-│   ├── session.py
-│   ├── attendee.py
-│   ├── registration.py
-│   ├── ticket.py
-│   ├── purchase.py
-│   ├── payment.py
-│   ├── session_booking.py
-│   ├── checkin.py
-│   ├── certificate.py
-│   ├── feedback.py
-│   ├── refund.py
-│   └── audit_log.py
-│
 ├── repositories/
-│   ├── user_repository.py
-│   ├── event_repository.py
-│   ├── venue_repository.py
-│   ├── hall_repository.py
-│   ├── speaker_repository.py
-│   ├── session_repository.py
-│   ├── registration_repository.py
-│   ├── ticket_repository.py
-│   ├── purchase_repository.py
-│   ├── payment_repository.py
-│   ├── refund_repository.py
-│   └── audit_log_repository.py
-│
 ├── services/
-│   ├── auth_service.py
-│   ├── event_service.py
-│   ├── venue_service.py
-│   ├── hall_service.py
-│   ├── speaker_service.py
-│   ├── session_service.py
-│   ├── registration_service.py
-│   ├── ticket_service.py
-│   ├── purchase_service.py
-│   ├── payment_service.py
-│   ├── refund_service.py
-│   └── audit_log_service.py
-│
 ├── routes/
-│   ├── auth.py
-│   ├── events.py
-│   ├── venues.py
-│   ├── speakers.py
-│   ├── sessions.py
-│   ├── registrations.py
-│   ├── tickets.py
-│   ├── purchases.py
-│   ├── payments.py
-│   ├── session_bookings.py
-│   ├── checkins.py
-│   ├── certificates.py
-│   ├── feedback.py
-│   ├── notifications.py
-│   ├── refunds.py
-│   ├── dashboard.py
-│   ├── reports.py
-│   └── audit_logs.py
-│
 ├── utils/
-│   ├── dependencies.py
-│   ├── security.py
-│   ├── exceptions.py
-│   └── enums.py
-│
 ├── tests/
-│   ├── test_auth.py
-│   ├── test_events.py
-│   ├── test_venues.py
-│   ├── test_speakers.py
-│   ├── test_sessions.py
-│   ├── test_registrations.py
-│   ├── test_tickets.py
-│   ├── test_purchases.py
-│   ├── test_payments.py
-│   ├── test_session_bookings.py
-│   ├── test_checkins.py
-│   ├── test_certificates.py
-│   ├── test_feedback.py
-│   ├── test_filtering_pagination.py
-│   ├── test_dashboard.py
-│   ├── test_reports.py
-│   ├── test_refunds.py
-│   └── test_security_data_integrity.py
-│
 ├── alembic/
 └── docs/
 ```
@@ -212,8 +107,8 @@ Implemented:
 * Hall management
 * Venue capacity validation
 * Hall capacity validation
-* Hall availability
 * Venue and hall relationships
+* Hall availability
 
 ---
 
@@ -254,7 +149,7 @@ Implemented:
 
 * Attendee registration
 * Event registration
-* Registration status
+* Registration status management
 * Duplicate registration prevention
 * Capacity validation
 * Registration period validation
@@ -354,7 +249,7 @@ Implemented:
 
 Implemented:
 
-* Background task based notifications
+* Background task notifications
 * Registration notifications
 * Payment notifications
 * Reminder notifications
@@ -395,7 +290,7 @@ Implemented filtering for:
 * Payment method
 * Date range
 
-### Pagination
+### Pagination & Sorting
 
 Supported parameters:
 
@@ -444,61 +339,34 @@ Implemented:
 
 Implemented:
 
-## JWT Authentication
+### JWT Authentication
 
-The system uses JWT-based authentication.
-
-Access tokens contain:
-
-```text
-sub
-type
-exp
-```
-
-The API verifies:
-
-* Token validity
-* Token type
-* User ID
+* JWT access tokens
+* JWT refresh tokens
 * Token expiration
-* User account status
+* Access-token type validation
+* Invalid-token protection
+* Inactive-user protection
 
----
+### Role-Based Authorization
 
-## Role-Based Authorization
+* Admin authorization
+* Event Organizer authorization
+* Staff authorization
+* Attendee authorization
+* Unauthorized role protection
 
-Protected operations verify the authenticated user's role.
+### Password Hashing
 
-Example roles:
+* Bcrypt password hashing
+* Secure password verification
+* Plain-text passwords are not stored
 
-```text
-Admin
-Event Organizer
-Speaker
-Staff
-Attendee
-```
-
-Unauthorized roles receive an HTTP `403 Forbidden` response.
-
----
-
-## Password Hashing
-
-Passwords are hashed using Bcrypt before being stored in the database.
-
-The application never stores passwords as plain text.
-
-Password verification is performed against the stored password hash during authentication.
-
----
-
-## Foreign Keys
+### Foreign Keys
 
 Database relationships use foreign keys to maintain referential integrity.
 
-Examples include:
+Examples:
 
 ```text
 Event → User
@@ -510,54 +378,38 @@ Registration → Attendee
 Registration → Event
 Payment → Purchase
 Refund → Payment
-Refund → Purchase
 AuditLog → User
 ```
 
----
+### Unique Constraints
 
-## Unique Constraints
-
-Unique constraints are used where duplicate data must be prevented.
-
-Examples include:
+Unique constraints prevent duplicate records such as:
 
 * User email
 * Speaker email
 * Payment transaction ID
 
-Duplicate records are rejected instead of creating inconsistent data.
+### Database Transactions
 
----
+SQLAlchemy database sessions are used to commit successful operations and roll back failed operations to prevent partial data changes.
 
-## Database Transactions
+### Global Exception Handling
 
-Database operations use SQLAlchemy sessions and transaction handling to ensure that changes are committed successfully or rolled back when an operation fails.
-
-This helps prevent partially completed operations.
-
----
-
-## Global Exception Handling
-
-The project provides centralized exception helpers for common API errors:
+Centralized handling is provided for common API errors including:
 
 ```text
+400 Bad Request
 401 Unauthorized
 403 Forbidden
 404 Not Found
-400 Bad Request
+422 Validation Error
 ```
 
-Validation errors are also handled through FastAPI/Pydantic validation.
+### Audit Logs
 
----
+Audit logging records important system actions.
 
-## Audit Logs
-
-Audit logging was added to track important system actions.
-
-Audit logs contain information such as:
+Audit log information includes:
 
 ```text
 User ID
@@ -569,68 +421,54 @@ IP Address
 Created At
 ```
 
-The API endpoint is:
+Admin users can access:
 
 ```text
 GET /api/v1/audit-logs
 ```
 
-Audit logs can be viewed by an authenticated Admin.
+### Soft Delete
 
----
+User account deactivation is used as a soft-delete mechanism.
 
-## Soft Delete
+Inactive users cannot access protected operations while their historical database information remains available.
 
-User account deactivation is used to prevent inactive users from accessing protected APIs while retaining their database records.
+### CORS
 
-Inactive users cannot authenticate successfully against protected operations.
+CORS middleware is configured to support frontend communication.
 
-This preserves historical data instead of physically removing the user record.
-
----
-
-## CORS
-
-CORS middleware is configured to allow frontend applications to communicate with the FastAPI backend.
-
-Configured development origin:
+Development origin:
 
 ```text
 http://localhost:3000
 ```
 
----
+### Input Validation
 
-## Input Validation
-
-Pydantic validation is used throughout the API.
-
-Validation includes:
+Pydantic validation is used for:
 
 * Required fields
-* String length
-* Positive capacity
-* Valid dates
+* String lengths
+* Positive values
+* Dates
 * Registration periods
-* Valid enum values
+* Enum values
 * Payment amounts
-* Rating range
-* Pagination values
-* Invalid request data
-
-Invalid input returns an appropriate validation response.
+* Ratings
+* Pagination parameters
+* Request data
 
 ---
 
 # API Documentation
 
-After starting the server, Swagger documentation is available at:
+Swagger UI:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-ReDoc is available at:
+ReDoc:
 
 ```text
 http://127.0.0.1:8000/redoc
@@ -648,15 +486,13 @@ PowerShell:
 .\venv\Scripts\Activate.ps1
 ```
 
----
-
 ## Start the Server
 
 ```powershell
 uvicorn main:app --reload
 ```
 
-The API runs at:
+API:
 
 ```text
 http://127.0.0.1:8000
@@ -708,25 +544,19 @@ Run a specific test file:
 python -m pytest tests/test_security_data_integrity.py -v -s
 ```
 
-Run Level 14 filtering tests:
-
-```powershell
-python -m pytest tests/test_filtering_pagination.py -v -s
-```
-
-Run Level 16 refund tests:
-
-```powershell
-python -m pytest tests/test_refunds.py -v -s
-```
-
 ---
 
-# Test Status
+# Test Results
 
 The project has been tested progressively across the implemented assignment levels.
 
-### Completed Test Results
+## Final Test Result
+
+```text
+385 passed
+```
+
+### Level-wise Test Results
 
 ```text
 Level 1   – 15 passed
@@ -741,18 +571,25 @@ Level 9   – 22 passed
 Level 10  – 34 passed
 Level 11  – 33 passed
 Level 12  – 18 passed
+Level 14  – Filtering & Pagination tests
 Level 15  – 13 passed
 Level 16  – 17 passed
+Level 17  – Security & Data Integrity tests
 ```
 
-The Level 14 filtering and pagination test suite contains:
+### Overall
 
 ```text
-23 tests
-22 passed
-```
+========================================
+        TEST SUITE RESULT
+========================================
 
-The remaining Level 14 city-response issue was identified and addressed by exposing the event city through the existing Event → Session → Hall → Venue relationship rather than adding an unnecessary `city` database column.
+385 PASSED
+0 FAILED
+
+All implemented project tests passed successfully.
+========================================
+```
 
 ---
 
@@ -776,7 +613,7 @@ PostgreSQL
 
 ### Models
 
-Define database tables and relationships.
+Define database tables, fields, constraints, and relationships.
 
 ### Schemas
 
@@ -798,8 +635,7 @@ Handle database queries and persistence.
 
 Contain reusable functionality such as:
 
-* Authentication
-* JWT
+* JWT authentication
 * Password hashing
 * Dependencies
 * Exceptions
@@ -807,29 +643,7 @@ Contain reusable functionality such as:
 
 ---
 
-# Security Features
-
-The application provides:
-
-* JWT authentication
-* Access and refresh tokens
-* Bcrypt password hashing
-* Role-based authorization
-* Active/inactive user protection
-* Foreign key constraints
-* Unique constraints
-* Input validation
-* Database transaction handling
-* Audit logging
-* Soft deletion/deactivation
-* CORS configuration
-* Centralized exception handling
-
----
-
 # Main Workflow
-
-The complete event management workflow is:
 
 ```text
 Register User
@@ -860,14 +674,38 @@ Book Session
       ↓
 Check-In
       ↓
-Attend Session/Event
+Attend
       ↓
 Submit Feedback
       ↓
 Generate Certificate
       ↓
+Cancellation / Refund
+      ↓
 Dashboard & Reports
+      ↓
+Audit & Security
 ```
+
+---
+
+# Security Features
+
+The application provides:
+
+* JWT authentication
+* Access and refresh tokens
+* Bcrypt password hashing
+* Role-based authorization
+* Active/inactive user protection
+* Foreign key constraints
+* Unique constraints
+* Database transactions
+* Input validation
+* Audit logging
+* Soft deletion/deactivation
+* CORS configuration
+* Exception handling
 
 ---
 
@@ -893,7 +731,7 @@ Do not commit the actual `.env` file or secret keys to GitHub.
 
 # Future Enhancements
 
-Possible future improvements include:
+Possible future improvements:
 
 * Celery
 * Redis
